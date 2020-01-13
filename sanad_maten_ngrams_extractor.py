@@ -42,7 +42,6 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
 
     json.dump({"top_frequent_percent": top_frequent_percent, "test_size_percent": test_size_percent},
               open(output_path + "cfg.json", "w"))
-
     return
 
 

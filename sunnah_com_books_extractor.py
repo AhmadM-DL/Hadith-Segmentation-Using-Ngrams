@@ -79,6 +79,7 @@ def extract_book(book_uri, output_path):
     maten_file.write(maten)
     atraf_file.write(atraf)
 
+
 def book_maten_sanad_atraf_extractor(book_dictionary, verbose=0):
     sanad_str = ""
     maten_str = ""
