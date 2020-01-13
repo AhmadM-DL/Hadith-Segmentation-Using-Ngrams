@@ -10,10 +10,7 @@ import sunnah_com_books_extractor as extractor
 nltk.download('punkt')
 
 
-def extract_sanad_maten_ngrams(books_paths,
-                               output_path,
-                               test_size_percent=0.25,
-                               top_frequent_percent=5):
+def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25, top_frequent_percent=5):
     books = {}
 
     for book_path in books_paths:
@@ -31,7 +28,8 @@ def extract_sanad_maten_ngrams(books_paths,
             "maten": maten,
         }
 
-    s_bi, s_uni, m_bi, m_uni, test_set = _extract_sanad_maten_ngrams(books, test_size_percent=test_size_percent, top_frequent_percent=top_frequent_percent)
+    s_bi, s_uni, m_bi, m_uni, test_set = _extract_sanad_maten_ngrams(books, test_size_percent=test_size_percent,
+                                                                     top_frequent_percent=top_frequent_percent)
 
     if not os.path.exists(output_path):
         os.makedirs(output_path)
@@ -41,6 +39,9 @@ def extract_sanad_maten_ngrams(books_paths,
     np.save(output_path + "maten_bigrams.npy", m_bi)
     np.save(output_path + "maten_unigrams.npy", m_uni)
     np.save(output_path + "test_set.npy", test_set)
+
+    json.dump({"top_frequent_percent": top_frequent_percent, "test_size_percent": test_size_percent},
+              open(output_path + "cfg.json", "w"))
 
     return
 
