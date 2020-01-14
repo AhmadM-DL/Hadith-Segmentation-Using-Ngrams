@@ -10,8 +10,11 @@ import sunnah_com_books_extractor as extractor
 nltk.download('punkt')
 
 
-def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25, top_frequent_percent=5):
+def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25, top_frequent_percent=5, verbose=1):
     books = {}
+
+    if verbose:
+        print("Reading Books JSON files")
 
     for book_path in books_paths:
         book_dictionary = json.load(open(book_path, "r"))
@@ -27,9 +30,20 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
             "sanad": sanad,
             "maten": maten,
         }
+        if verbose:
+            if book_dictionary["Title"]:
+                print(book_dictionary["Title"])
+            else:
+                print("Read book with no title")
+
+    if verbose:
+        print("Extracting sanad/maten ngrams + test data")
 
     s_bi, s_uni, m_bi, m_uni, test_set = _extract_sanad_maten_ngrams(books, test_size_percent=test_size_percent,
                                                                      top_frequent_percent=top_frequent_percent)
+
+    if verbose:
+        print("Writing sanad/maten ngrams files")
 
     if not os.path.exists(output_path):
         os.makedirs(output_path)
@@ -38,7 +52,14 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
     np.save(output_path + "sanad_unigrams.npy", s_uni)
     np.save(output_path + "maten_bigrams.npy", m_bi)
     np.save(output_path + "maten_unigrams.npy", m_uni)
+
+    if verbose:
+        print("Writing test data file")
+
     np.save(output_path + "test_set.npy", test_set)
+
+    if verbose:
+        print("Writing extraction configuration file")
 
     json.dump({"books_used":books_paths,
                "top_frequent_percent": top_frequent_percent,
