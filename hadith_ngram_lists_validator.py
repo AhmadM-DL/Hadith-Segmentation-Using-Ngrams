@@ -41,7 +41,7 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
             "Sanad_bigrams": sanad_bigrams_path,
             "Maten_unigrams": maten_unigrams_path,
             "Maten_bigrams": maten_bigrams_path,
-            "Test_set": test_set,
+            "Test_set": test_set_path,
             }
 
     if output_path:
