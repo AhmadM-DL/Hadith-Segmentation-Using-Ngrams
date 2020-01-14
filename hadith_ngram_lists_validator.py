@@ -15,9 +15,9 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
     test_set = np.load(test_set_path)
 
     if verbose:
-        hadith_number = 0
         print("Testing on %d hadith" % (len(test_set)))
 
+    hadith_number = 0
     for observation in test_set:
         hadith = observation[0]
         gold_split_position = observation[2]
