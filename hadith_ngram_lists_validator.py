@@ -34,9 +34,18 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
     }
 
     if output_path:
+
         if not os.path.exists(output_path):
             os.makedirs(output_path)
-        fs = open(output_path + "lists_validation_output.json", "w")
+
+        output_file_name = "lists_validation_output"
+        output_file_number = 0
+        final_path = output_path + output_file_name + "_" + output_file_number + ".json"
+
+        while os.path.exists(final_path):
+            output_file_number+=1
+
+        fs = open(final_path, "w")
         json.dump(fs, info)
 
     return accuracies
