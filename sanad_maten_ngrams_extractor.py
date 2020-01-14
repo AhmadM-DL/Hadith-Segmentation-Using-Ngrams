@@ -51,15 +51,15 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
-    np.save(output_path + "sanad_bigrams.npy", s_bi)
-    np.save(output_path + "sanad_unigrams.npy", s_uni)
-    np.save(output_path + "maten_bigrams.npy", m_bi)
-    np.save(output_path + "maten_unigrams.npy", m_uni)
+    np.save(output_path + "/sanad_bigrams.npy", s_bi)
+    np.save(output_path + "/sanad_unigrams.npy", s_uni)
+    np.save(output_path + "/maten_bigrams.npy", m_bi)
+    np.save(output_path + "/maten_unigrams.npy", m_uni)
 
     if verbose:
         print("Writing test data file")
 
-    np.save(output_path + "test_set.npy", test_set)
+    np.save(output_path + "/test_set.npy", test_set)
 
     if verbose:
         print("Writing extraction configuration file")
@@ -67,7 +67,7 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
     json.dump({"books_used":books_paths,
                "top_frequent_percent": top_frequent_percent,
                "test_size_percent": test_size_percent},
-              open(output_path + "cfg.json", "w"))
+              open(output_path + "/cfg.json", "w"))
     return
 
 
