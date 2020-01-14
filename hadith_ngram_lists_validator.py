@@ -30,7 +30,10 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
         predicted_split_positions.append(int(predicted_split_position))
 
         if verbose:
-            print(str(hadith_number) + "_" + hadith + " predicted_split(%d)" % (int(predicted_split_position)))
+            if verbose == 2:
+                print(str(hadith_number) + "_" + hadith + " predicted_split(%d)" % (int(predicted_split_position)))
+            if verbose == 1:
+                print("hadith_" + str(hadith_number) + " predicted_split(%d)" % (int(predicted_split_position)))
             hadith_number += 1
 
     accuracies = _get_accuracy_vary_tolerance(gold_split_positions, predicted_split_positions,
