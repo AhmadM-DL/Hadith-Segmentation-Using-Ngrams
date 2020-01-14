@@ -10,5 +10,7 @@ The hadith are still of use today by islam/history scholars and researchers. Eac
 This repository showcases a Natural Language Processing (NLP) Technique that uses Ngrams to predict the split between sanad and maten for a given hadith.
 As in the below example:
 
+![image](https://github.com/AhmadM-DL/Hadith-Segmentation-Using-Ngrams/blob/master/resources/images/functionality-description.png?raw=true)
+
 
 
