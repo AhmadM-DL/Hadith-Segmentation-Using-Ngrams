@@ -25,11 +25,19 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
     accuracies = _get_accuracy_vary_tolerance(gold_split_positions, predicted_split_positions,
                                               min_tolerance=min_tolerance, max_tolerance=max_tolerance)
 
+    info = {"Accuracies":accuracies,
+            "Sanad_unigrams":sanad_unigrams_path,
+            "Sanad_bigrams":sanad_bigrams_path,
+            "Maten_unigrams":maten_unigrams_path,
+            "Maten_bigrams":maten_bigrams_path,
+            "Test_set":test_set,
+    }
+
     if output_path:
         if not os.path.exists(output_path):
             os.makedirs(output_path)
-        fs = open(output_path + "accuracies.json", "w")
-        json.dump(fs, accuracies)
+        fs = open(output_path + "lists_validation_output.json", "w")
+        json.dump(fs, info)
 
     return accuracies
 
