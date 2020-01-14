@@ -62,6 +62,7 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
 
         while os.path.exists(final_path):
             output_file_number += 1
+            final_path = output_path + output_file_name + "_" + str(output_file_number) + ".json"
 
         fs = open(final_path, "w")
         json.dump(fs, info)
