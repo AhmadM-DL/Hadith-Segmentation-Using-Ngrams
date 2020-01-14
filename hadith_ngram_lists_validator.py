@@ -47,6 +47,10 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
             "Test_set": test_set_path,
             }
 
+    if verbose:
+        print(accuracies)
+        print(info)
+
     if output_path:
 
         if not os.path.exists(output_path):
