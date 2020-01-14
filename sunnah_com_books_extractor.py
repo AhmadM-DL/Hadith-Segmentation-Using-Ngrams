@@ -15,7 +15,7 @@ def extract_book(book_uri, output_path):
     book_number_of_volumes = int(book_soup.find_all("div", class_="book_number")[-1].text)
 
     extracted_book = {"Title": book_title,
-                      "Description" : book_description,
+                      "Description": book_description,
                       'Volumes': []}
 
     for i in range(1, book_number_of_volumes + 1):
@@ -76,10 +76,10 @@ def extract_book(book_uri, output_path):
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
-    entire_book_file = open(output_path + extracted_book["Title"] + 'JSON.txt', 'w')
+    entire_book_file = open(output_path + extracted_book["Title"] + '.json', 'w')
     json.dump(extracted_book, entire_book_file, ensure_ascii=False)
 
-    sanad, maten, atraf = book_maten_sanad_atraf_extractor(entire_book_file)
+    sanad, maten, atraf = book_maten_sanad_atraf_extractor(extracted_book)
 
     sanad_file = open(output_path + extracted_book["Title"] + '_sanad.txt', 'w')
     maten_file = open(output_path + extracted_book["Title"] + '_maten.txt', 'w')
