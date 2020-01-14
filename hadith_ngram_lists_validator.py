@@ -8,11 +8,15 @@ import hadith_predictor as predictor
 def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
                                maten_bigrams_path, maten_unigrams_path,
                                test_set_path, min_tolerance=0, max_tolerance=5,
-                               output_path=None):
+                               output_path=None, verbose=1):
     gold_split_positions = []
     predicted_split_positions = []
 
     test_set = np.load(test_set_path)
+
+    if verbose:
+        hadith_number = 0
+        print("Testing on %d hadith" % (len(test_set)))
 
     for observation in test_set:
         hadith = observation[0]
@@ -25,16 +29,20 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
 
         predicted_split_positions.append(int(predicted_split_position))
 
+        if verbose:
+            print(str(hadith_number) + "_" + hadith + " predicted_split(%d)" % (int(predicted_split_position)))
+            hadith_number += 1
+
     accuracies = _get_accuracy_vary_tolerance(gold_split_positions, predicted_split_positions,
                                               min_tolerance=min_tolerance, max_tolerance=max_tolerance)
 
-    info = {"Accuracies":accuracies,
-            "Sanad_unigrams":sanad_unigrams_path,
-            "Sanad_bigrams":sanad_bigrams_path,
-            "Maten_unigrams":maten_unigrams_path,
-            "Maten_bigrams":maten_bigrams_path,
-            "Test_set":test_set,
-    }
+    info = {"Accuracies": accuracies,
+            "Sanad_unigrams": sanad_unigrams_path,
+            "Sanad_bigrams": sanad_bigrams_path,
+            "Maten_unigrams": maten_unigrams_path,
+            "Maten_bigrams": maten_bigrams_path,
+            "Test_set": test_set,
+            }
 
     if output_path:
 
@@ -46,7 +54,7 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
         final_path = output_path + output_file_name + "_" + output_file_number + ".json"
 
         while os.path.exists(final_path):
-            output_file_number+=1
+            output_file_number += 1
 
         fs = open(final_path, "w")
         json.dump(fs, info)
