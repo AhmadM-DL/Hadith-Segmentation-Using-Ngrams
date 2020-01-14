@@ -99,11 +99,11 @@ def _extract_sanad_maten_ngrams(books_dictionary,
                                                 top_frequent_percent=top_frequent_percent)
 
     # Get Final Maten Bigram Precompiled Lists
-    maten_bigrams = _generate_ngrams_from_sets(maten_train, grams_number=2)
+    maten_bigrams = _generate_ngrams_from_sets(maten_train, ngrams_number=2)
     maten_bigrams = [(a[0], a[1]) for a in maten_bigrams]
 
     # Get Final Maten unigram Precompiled Lists
-    maten_unigrams = _generate_ngrams_from_sets(maten_train, grams_number=1)
+    maten_unigrams = _generate_ngrams_from_sets(maten_train, ngrams_number=1)
 
     # Get test set
     test_set = _generate_test_set(sanad_test, maten_test)
