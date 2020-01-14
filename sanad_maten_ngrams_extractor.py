@@ -40,7 +40,9 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
     np.save(output_path + "maten_unigrams.npy", m_uni)
     np.save(output_path + "test_set.npy", test_set)
 
-    json.dump({"top_frequent_percent": top_frequent_percent, "test_size_percent": test_size_percent},
+    json.dump({"books_used":books_paths,
+               "top_frequent_percent": top_frequent_percent,
+               "test_size_percent": test_size_percent},
               open(output_path + "cfg.json", "w"))
     return
 
