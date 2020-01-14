@@ -51,7 +51,7 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
 
         output_file_name = "lists_validation_output"
         output_file_number = 0
-        final_path = output_path + output_file_name + "_" + output_file_number + ".json"
+        final_path = output_path + output_file_name + "_" + str(output_file_number) + ".json"
 
         while os.path.exists(final_path):
             output_file_number += 1
