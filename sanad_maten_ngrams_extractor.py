@@ -99,6 +99,8 @@ def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,
                                                top_frequent_percent=top_frequent_percent)
     sanad_bigrams = [(a[0], a[1]) for a in sanad_bigrams]
 
+    #TODO work on verbose printing
+
     # Get Final Sanad unigram Precompiled Lists
     sanad_unigrams = _generate_ngrams_from_sets(sanad_train, ngrams_number=1,
                                                 top_frequent_percent=top_frequent_percent)
