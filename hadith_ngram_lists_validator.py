@@ -71,7 +71,7 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
 
 def _get_accuracy_vary_tolerance(gold_splits, predicted_splits, min_tolerance=0, max_tolerance=5):
     accuracies = {}
-    for tolerance in range(min_tolerance, max_tolerance):
+    for tolerance in range(min_tolerance, max_tolerance+1):
         accuracies[tolerance] = _split_position_accuracy(gold_splits, predicted_splits, tolerance)
     return accuracies
 
