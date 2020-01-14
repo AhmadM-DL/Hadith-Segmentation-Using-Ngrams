@@ -15,9 +15,9 @@ def extract_book(book_uri, output_path):
     extracted_book = {"Title": book_title,
                       'Volumes': []}
 
-    for i in range(1, book_number_of_volumes+1):
+    for i in range(1, book_number_of_volumes + 1):
 
-        uri = book_uri + str(i)
+        uri = book_uri + "/" + str(i)
 
         print("Getting Volume From %s" % uri)
         page = requests.get(uri)
