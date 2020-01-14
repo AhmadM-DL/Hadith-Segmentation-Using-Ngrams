@@ -6,12 +6,15 @@ import unicodedata as ud
 
 
 def extract_book(book_uri, output_path):
-    extracted_book = {"Title": "book",  # TODO Book Title should be extracted automatically
+    book_page = requests.get(book_uri)
+    book_soup = BeautifulSoup(book_page.content, 'html5lib')
+    book_title = book_soup.find("div", _class="colindextitle").findall("div")[1].text
+    book_number_of_volumes = book_soup.findall("div", _class="book_number")[-1].text
+
+    extracted_book = {"Title": book_title,
                       'Volumes': []}
 
-    book_number_of_volumes = 10  # TODO Range should be extracted automatically
-
-    for i in range(1, book_number_of_volumes):
+    for i in range(1, book_number_of_volumes+1):
 
         uri = book_uri + str(i)
 
@@ -71,9 +74,9 @@ def extract_book(book_uri, output_path):
 
     sanad, maten, atraf = book_maten_sanad_atraf_extractor(entire_book_file)
 
-    sanad_file = open(output_path + extracted_book["Title"] + 'sanad.txt', 'w')
-    maten_file = open(output_path + extracted_book["Title"] + 'maten.txt', 'w')
-    atraf_file = open(output_path + extracted_book["Title"] + 'atraf.txt', 'w')
+    sanad_file = open(output_path + extracted_book["Title"] + '_sanad.txt', 'w')
+    maten_file = open(output_path + extracted_book["Title"] + '_maten.txt', 'w')
+    atraf_file = open(output_path + extracted_book["Title"] + '_atraf.txt', 'w')
 
     sanad_file.write(sanad)
     maten_file.write(maten)
@@ -123,5 +126,3 @@ def book_maten_sanad_atraf_extractor(book_dictionary, verbose=0):
                 atraf_str += atraf_sentence + "\n"
 
     return sanad_str, maten_str, atraf_str
-
-
