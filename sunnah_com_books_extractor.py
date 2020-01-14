@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup, Tag
 import json
+import os
 import pyarabic.araby as araby
 import unicodedata as ud
 
@@ -68,6 +69,9 @@ def extract_book(book_uri, output_path):
                     volume["Chapters"][-1]["Hadiths"].append(hadith)
 
         extracted_book['Volumes'].append(volume)
+
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
 
     entire_book_file = open(output_path + extracted_book["Title"] + 'JSON.txt', 'w')
     json.dump(extracted_book, entire_book_file, ensure_ascii=False)
