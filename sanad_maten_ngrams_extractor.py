@@ -23,10 +23,12 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
         maten = maten.split("\n")
 
         # Take only hadith that contains sanad
-        for i in range(len(sanad)):
+        i = 0
+        while i < len(sanad):
             if sanad[i] == "":
                 del sanad[i]
                 del maten[i]
+            i += 1
 
         books[book_dictionary["Title"]] = {
             "sanad": sanad,
