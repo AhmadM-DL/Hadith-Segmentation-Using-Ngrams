@@ -73,9 +73,8 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
     return
 
 
-def _extract_sanad_maten_ngrams(books_dictionary,
-                                test_size_percent=0.25,
-                                top_frequent_percent=5):
+def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,
+                                top_frequent_percent=5, verbose=1):
 
     # Get training books preliminary data (sanad/maten)
     all_sanad = [book_content["sanad"] for (_, book_content) in books_dictionary.items()]
@@ -85,10 +84,16 @@ def _extract_sanad_maten_ngrams(books_dictionary,
     preliminary_sanad = [sanad for sanad_list in all_sanad for sanad in sanad_list]
     preliminary_maten = [maten for maten_list in all_maten for maten in maten_list]
 
+    if verbose:
+        print("The book contained %d hadith with sanad"%(len(preliminary_sanad)))
+
     # Split Preliminary data into train_test
     sanad_train, sanad_test, maten_train, maten_test = train_test_split(preliminary_sanad,
                                                                         preliminary_maten,
                                                                         test_size=test_size_percent)
+    if verbose:
+        print("Train-Test Split (%d)% : %d train, %d test"%(test_size_percent, len(sanad_train), len(sanad_test)))
+
     # Get Final Sanad Bigram Precompiled Lists
     sanad_bigrams = _generate_ngrams_from_sets(sanad_train, ngrams_number=2,
                                                top_frequent_percent=top_frequent_percent)
