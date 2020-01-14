@@ -22,7 +22,7 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
         sanad = sanad.split("\n")
         maten = maten.split("\n")
 
-        # Take only hadith that contains sanad
+        # Take only hadith that contains sanad (as some doesn't)
         i = 0
         while i < len(sanad):
             if sanad[i] == "":
@@ -34,6 +34,7 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
             "sanad": sanad,
             "maten": maten,
         }
+
         if verbose:
             if book_dictionary["Title"]:
                 print(book_dictionary["Title"])

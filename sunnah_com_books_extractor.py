@@ -111,7 +111,7 @@ def book_maten_sanad_atraf_extractor(book_dictionary, verbose=0):
 
                 # Extract Sanad
                 sanad_sentence = araby.strip_tashkeel(
-                    hadith["PreSanad"].replace("/n", "").replace("\t", "").replace('\u200f', ''))
+                    hadith["PreSanad"].replace("\n", "").replace("\t", "").replace('\u200f', ''))
 
                 sanad_sentence = ''.join(c for c in sanad_sentence if not ud.category(c).startswith('P'))
 
@@ -122,7 +122,7 @@ def book_maten_sanad_atraf_extractor(book_dictionary, verbose=0):
 
                 # Extract Maten
                 maten_sentence = araby.strip_tashkeel(
-                    hadith["Body"].replace("/n", "").replace("\t", "").replace('\u200f', ''))
+                    hadith["Body"].replace("\n", "").replace("\t", "").replace('\u200f', ''))
 
                 maten_sentence = ''.join(c for c in maten_sentence if not ud.category(c).startswith('P'))
 
@@ -133,7 +133,7 @@ def book_maten_sanad_atraf_extractor(book_dictionary, verbose=0):
 
                 # Extract Atraf
                 atraf_sentence = araby.strip_tashkeel(
-                    hadith["PostSanad"].replace("/n", "").replace("\t", "").replace('\u200f', ''))
+                    hadith["PostSanad"].replace("\n", "").replace("\t", "").replace('\u200f', ''))
 
                 atraf_sentence = ''.join(c for c in atraf_sentence if not ud.category(c).startswith('P'))
 
