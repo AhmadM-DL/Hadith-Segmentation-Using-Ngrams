@@ -11,7 +11,10 @@ def extract_book(book_uri, output_path, verbose=1):
     book_soup = BeautifulSoup(book_page.content, 'html5lib')
     book_info = book_soup.find("div", class_="collection_info").find_all("div", class_="colindextitle")
     book_title = book_info[0].find_all("div")[1].text
-    book_description = book_info[1].text.strip()
+    if len(book_info) == 2:
+        book_description = book_info[1].text.strip()
+    else:
+        book_description = " No description available"
     book_number_of_volumes = int(book_soup.find_all("div", class_="book_number")[-1].text)
 
     extracted_book = {"Title": book_title,
