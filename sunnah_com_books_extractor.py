@@ -18,6 +18,9 @@ def extract_book(book_uri, output_path, verbose=1):
                       "Description": book_description,
                       'Volumes': []}
 
+    if verbose:
+        print("The Book %s Contains %d Volumes:"%(book_title, book_number_of_volumes))
+
     for i in range(1, book_number_of_volumes + 1):
 
         uri = book_uri + "/" + str(i)
