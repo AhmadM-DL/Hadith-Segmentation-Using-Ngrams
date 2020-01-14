@@ -19,6 +19,8 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
     for book_path in books_paths:
         book_dictionary = json.load(open(book_path, "r"))
         sanad, maten, _ = extractor.book_maten_sanad_atraf_extractor(book_dictionary)
+        sanad = sanad.split("\n")
+        maten = maten.split("\n")
 
         # Take only hadith that contains sanad
         for i in range(len(sanad)):
@@ -71,6 +73,7 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
 def _extract_sanad_maten_ngrams(books_dictionary,
                                 test_size_percent=0.25,
                                 top_frequent_percent=5):
+
     # Get training books preliminary data (sanad/maten)
     all_sanad = [book_content["sanad"] for (_, book_content) in books_dictionary.items()]
     all_maten = [book_content["maten"] for (_, book_content) in books_dictionary.items()]
