@@ -1,6 +1,6 @@
 import json
 import os
-import np
+import numpy as np
 
 import hadith_predictor as predictor
 
