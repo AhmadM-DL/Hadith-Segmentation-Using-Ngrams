@@ -7,7 +7,8 @@ import hadith_predictor as predictor
 
 def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
                                maten_bigrams_path, maten_unigrams_path,
-                               test_set_path, min_tolerance=0, max_tolerance=5,
+                               test_set_path, split_predictor,
+                               min_tolerance=0, max_tolerance=5,
                                output_path=None, verbose=1):
     gold_split_positions = []
     predicted_split_positions = []
@@ -24,7 +25,7 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
         gold_split_positions.append(int(gold_split_position))
         predicted_split_position, _ = predictor.segment_hadith(hadith, sanad_bigrams_path, sanad_unigrams_path,
                                                                maten_bigrams_path, maten_unigrams_path,
-                                                               predictor.PREDICTOR_INFORMATION_GAIN,
+                                                               split_predictor,
                                                                )
 
         predicted_split_positions.append(int(predicted_split_position))
