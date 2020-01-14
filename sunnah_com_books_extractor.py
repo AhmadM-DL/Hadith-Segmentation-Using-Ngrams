@@ -9,10 +9,13 @@ import unicodedata as ud
 def extract_book(book_uri, output_path):
     book_page = requests.get(book_uri)
     book_soup = BeautifulSoup(book_page.content, 'html5lib')
-    book_title = book_soup.find("div", _class="colindextitle").findall("div")[1].text
-    book_number_of_volumes = book_soup.findall("div", _class="book_number")[-1].text
+    book_info = book_soup.find("div", class_="collection_info").find_all("div", class_="colindextitle")
+    book_title = book_info[0].find_all("div")[1].text
+    book_description = book_info[1].text.strip()
+    book_number_of_volumes = int(book_soup.find_all("div", class_="book_number")[-1].text)
 
     extracted_book = {"Title": book_title,
+                      "Description" : book_description,
                       'Volumes': []}
 
     for i in range(1, book_number_of_volumes + 1):
