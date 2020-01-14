@@ -92,7 +92,7 @@ def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,
                                                                         preliminary_maten,
                                                                         test_size=test_size_percent)
     if verbose:
-        print("Train-Test Split (%d)% : %d train, %d test"%(test_size_percent, len(sanad_train), len(sanad_test)))
+        print("Train-Test Split (%d percent): %d train, %d test"%(test_size_percent, len(sanad_train), len(sanad_test)))
 
     # Get Final Sanad Bigram Precompiled Lists
     sanad_bigrams = _generate_ngrams_from_sets(sanad_train, ngrams_number=2,
