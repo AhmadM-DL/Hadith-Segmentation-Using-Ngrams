@@ -6,7 +6,7 @@ import pyarabic.araby as araby
 import unicodedata as ud
 
 
-def extract_book(book_uri, output_path):
+def extract_book(book_uri, output_path, verbose=1):
     book_page = requests.get(book_uri)
     book_soup = BeautifulSoup(book_page.content, 'html5lib')
     book_info = book_soup.find("div", class_="collection_info").find_all("div", class_="colindextitle")
@@ -22,7 +22,9 @@ def extract_book(book_uri, output_path):
 
         uri = book_uri + "/" + str(i)
 
-        print("Getting Volume From %s" % uri)
+        if verbose:
+            print("Getting Volume From %s" % uri)
+
         page = requests.get(uri)
         contents = page.content
 
@@ -53,22 +55,24 @@ def extract_book(book_uri, output_path):
                                "Hadiths": []}
 
                     volume["Chapters"].append(chapter)
-                    print("Getting Chapter %s : %s" % (chapter["Number"], chapter["Title"]))
+                    if verbose == 2:
+                        print("Getting Chapter %s : %s" % (chapter["Number"], chapter["Title"]))
 
                 elif tag_type == "div" and tag_class == "actualHadithContainer":
 
                     # Adding Default Chapter in case no one exist
                     if not volume["Chapters"]:
                         volume["Chapters"].append(chapter)
-                        print("Created Default Chapter %s : %s" % (chapter["Number"], chapter["Title"]))
+                        if verbose == 2:
+                            print("Created Default Chapter %s : %s" % (chapter["Number"], chapter["Title"]))
 
                     sanads = child.findAll("span", class_="arabic_sanad arabic")
 
                     hadith = {"PreSanad": sanads[0].text,
                               "Body": child.find("span", class_="arabic_text_details arabic").text,
                               "PostSanad": sanads[1].text}
-
-                    print("Read Hadith")
+                    if verbose == 2:
+                        print("Read Hadith")
                     volume["Chapters"][-1]["Hadiths"].append(hadith)
 
         extracted_book['Volumes'].append(volume)
