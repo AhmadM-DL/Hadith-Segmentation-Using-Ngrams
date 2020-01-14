@@ -65,7 +65,7 @@ def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
             final_path = output_path + output_file_name + "_" + str(output_file_number) + ".json"
 
         fs = open(final_path, "w")
-        json.dump(fs, info)
+        json.dump(info, fs)
 
     return accuracies
 
