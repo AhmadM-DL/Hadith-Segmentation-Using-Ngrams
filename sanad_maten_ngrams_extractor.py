@@ -23,12 +23,10 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
         maten = maten.split("\n")
 
         # Take only hadith that contains sanad (as some doesn't)
-        i = 0
-        while i < len(sanad):
-            if sanad[i] == "":
-                del sanad[i]
-                del maten[i]
-            i += 1
+        # get empty sanad indices
+        indices_empty_sanad = [i for i, s in enumerate(sanad) if s == '']
+        sanad = [s for i, s in enumerate(sanad) if not i in indices_empty_sanad]
+        maten = [m for i, m in enumerate(maten) if not i in indices_empty_sanad]
 
         books[book_dictionary["Title"]] = {
             "sanad": sanad,
@@ -92,7 +90,7 @@ def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,
                                                                         preliminary_maten,
                                                                         test_size=test_size_percent)
     if verbose:
-        print("Train-Test Split (%d): %d train, %d test"%(test_size_percent, len(sanad_train), len(sanad_test)))
+        print("Train-Test Split (%f): %d train, %d test"%(test_size_percent, len(sanad_train), len(sanad_test)))
 
     # Get Final Sanad Bigram Precompiled Lists
     sanad_bigrams = _generate_ngrams_from_sets(sanad_train, ngrams_number=2,
