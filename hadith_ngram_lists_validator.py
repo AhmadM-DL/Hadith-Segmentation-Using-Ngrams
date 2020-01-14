@@ -1,15 +1,18 @@
 import json
 import os
+import np
 
 import hadith_predictor as predictor
 
 
 def validate_sanad_maten_lists(sanad_bigrams_path, sanad_unigrams_path,
                                maten_bigrams_path, maten_unigrams_path,
-                               test_set, min_tolerance=0, max_tolerance=5,
+                               test_set_path, min_tolerance=0, max_tolerance=5,
                                output_path=None):
     gold_split_positions = []
     predicted_split_positions = []
+
+    test_set = np.load(test_set_path)
 
     for observation in test_set:
         hadith = observation[0]
