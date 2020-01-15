@@ -74,7 +74,7 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
     return s_bi, s_uni, m_bi, m_uni, test_set
 
 
-def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,remove_stop_words=0,
+def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25, remove_stop_words=0,
                                 top_frequent_percent=5, verbose=1):
     # Get training books preliminary data (sanad/maten)
     all_sanad = [book_content["sanad"] for (_, book_content) in books_dictionary.items()]
@@ -102,7 +102,7 @@ def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,remove_
     # TODO work on verbose printing
 
     # Get Final Sanad unigram Precompiled Lists
-    sanad_unigrams = _generate_ngrams_from_sets(sanad_train, ngrams_number=1,remove_stop_words=remove_stop_words,
+    sanad_unigrams = _generate_ngrams_from_sets(sanad_train, ngrams_number=1, remove_stop_words=remove_stop_words,
                                                 top_frequent_percent=top_frequent_percent)
 
     # Get Final Maten Bigram Precompiled Lists
@@ -145,7 +145,12 @@ def _generate_ngrams_from_sets(hadith_part_set, ngrams_number, top_frequent_perc
     if remove_stop_words:
         # Get Arabic Stop Words
         arb_stopwords = set(nltk.corpus.stopwords.words("arabic"))
-        non_stop_words_indices = [i for i, s in enumerate(unique_grams) if s not in arb_stopwords]
+        if ngrams_number == 1:
+            non_stop_words_indices = [i for i, s in enumerate(unique_grams) if s not in arb_stopwords]
+        else:
+            non_stop_words_indices = [i for i, s in enumerate(unique_grams) if
+                                      _number_tuple_elements_in_list(s, arb_stopwords) < len(s)]
+
         unique_grams = unique_grams[non_stop_words_indices]
         unique_grams_counts = unique_grams_counts[non_stop_words_indices]
 
@@ -158,3 +163,11 @@ def _generate_ngrams_from_sets(hadith_part_set, ngrams_number, top_frequent_perc
         return frequent_grams
 
     return unique_grams
+
+
+def _number_tuple_elements_in_list(mtuple, mlist):
+    number_tuple_elements_in_list = 0
+    for element in mtuple:
+        if element in mlist:
+            number_tuple_elements_in_list += 1
+    return number_tuple_elements_in_list
