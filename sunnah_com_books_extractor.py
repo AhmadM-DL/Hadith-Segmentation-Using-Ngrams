@@ -2,8 +2,11 @@ import requests
 from bs4 import BeautifulSoup, Tag
 import json
 import os
+import re
 import pyarabic.araby as araby
 import unicodedata as ud
+
+rubbish_check = re.compile(r'[a-z1-9!@#$%^&*()<>?_+-=|"}{][]}]')
 
 
 def extract_book(book_uri, output_path, verbose=1):
@@ -113,7 +116,8 @@ def book_maten_sanad_atraf_extractor(book_dictionary, verbose=0):
                 sanad_sentence = araby.strip_tashkeel(
                     hadith["PreSanad"].replace("\n", "").replace("\t", "").replace('\u200f', ''))
 
-                sanad_sentence = ''.join( c for c in sanad_sentence if not (ud.category(c).startswith('P') or c.isalpha()))
+                sanad_sentence = ''.join(c for c in sanad_sentence if not ud.category(c).startswith('P'))
+                sanad_sentence = ''.join(c for c in sanad_sentence if not rubbish_check.match(c))
 
                 if verbose:
                     print("SANAD: " + sanad_sentence)
@@ -124,7 +128,8 @@ def book_maten_sanad_atraf_extractor(book_dictionary, verbose=0):
                 maten_sentence = araby.strip_tashkeel(
                     hadith["Body"].replace("\n", "").replace("\t", "").replace('\u200f', ''))
 
-                maten_sentence = ''.join( c for c in maten_sentence if not (ud.category(c).startswith('P') or c.isalpha()))
+                maten_sentence = ''.join(c for c in maten_sentence if not ud.category(c).startswith('P'))
+                maten_sentence = ''.join(c for c in maten_sentence if not rubbish_check.match(c))
 
                 if verbose:
                     print("MATEN: " + maten_sentence)
@@ -135,7 +140,8 @@ def book_maten_sanad_atraf_extractor(book_dictionary, verbose=0):
                 atraf_sentence = araby.strip_tashkeel(
                     hadith["PostSanad"].replace("\n", "").replace("\t", "").replace('\u200f', ''))
 
-                atraf_sentence = ''.join(c for c in atraf_sentence if not (ud.category(c).startswith('P') or c.isalpha()))
+                atraf_sentence = ''.join(c for c in atraf_sentence if not ud.category(c).startswith('P'))
+                atraf_sentence = ''.join(c for c in atraf_sentence if not rubbish_check.match(c))
 
                 if verbose:
                     print("Atraf: " + atraf_sentence)
