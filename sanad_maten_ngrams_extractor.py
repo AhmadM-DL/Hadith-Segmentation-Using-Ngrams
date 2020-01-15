@@ -9,7 +9,6 @@ import sunnah_com_books_extractor as extractor
 
 nltk.download('punkt')
 
-
 def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25, top_frequent_percent=5, verbose=1):
     books = {}
 
