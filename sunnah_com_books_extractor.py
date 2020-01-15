@@ -6,7 +6,7 @@ import re
 import pyarabic.araby as araby
 import unicodedata as ud
 
-rubbish_check = re.compile(r'[a-z1-9!@#$%^&*()<>?_+-=|"}{][]}]')
+rubbish_check = re.compile(r'[a-z1-9!@#$%^&*()<>?_+-=|"}{\][\]}]')
 
 
 def extract_book(book_uri, output_path, verbose=1):
