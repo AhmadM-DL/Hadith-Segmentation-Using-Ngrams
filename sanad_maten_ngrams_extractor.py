@@ -145,11 +145,8 @@ def _generate_ngrams_from_sets(hadith_part_set, ngrams_number, top_frequent_perc
     if remove_stop_words:
         # Get Arabic Stop Words
         arb_stopwords = set(nltk.corpus.stopwords.words("arabic"))
-        if ngrams_number == 1:
-            non_stop_words_indices = [i for i, s in enumerate(unique_grams) if s not in arb_stopwords]
-        else:
-            non_stop_words_indices = [i for i, s in enumerate(unique_grams) if
-                                      _number_tuple_elements_in_list(s, arb_stopwords) < len(s)]
+        non_stop_words_indices = [i for i, s in enumerate(unique_grams) if
+                                  _number_tuple_elements_in_list(s, arb_stopwords) < len(s)]
 
         unique_grams = unique_grams[non_stop_words_indices]
         unique_grams_counts = unique_grams_counts[non_stop_words_indices]
