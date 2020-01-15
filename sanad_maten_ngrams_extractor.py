@@ -8,9 +8,11 @@ import os
 import sunnah_com_books_extractor as extractor
 
 nltk.download('punkt')
+nltk.download("stopwords")
 
 
-def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25, top_frequent_percent=5, verbose=1):
+def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25, top_frequent_percent=5, verbose=1,
+                               remove_stop_words=0):
     books = {}
 
     if verbose:
@@ -43,7 +45,8 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
         print("Extracting sanad/maten ngrams + test data")
 
     s_bi, s_uni, m_bi, m_uni, test_set = _extract_sanad_maten_ngrams(books, test_size_percent=test_size_percent,
-                                                                     top_frequent_percent=top_frequent_percent)
+                                                                     top_frequent_percent=top_frequent_percent,
+                                                                     remove_stop_words=remove_stop_words)
 
     if verbose:
         print("Writing sanad/maten ngrams files")
@@ -71,7 +74,7 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
     return s_bi, s_uni, m_bi, m_uni, test_set
 
 
-def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,
+def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,remove_stop_words=0,
                                 top_frequent_percent=5, verbose=1):
     # Get training books preliminary data (sanad/maten)
     all_sanad = [book_content["sanad"] for (_, book_content) in books_dictionary.items()]
@@ -99,7 +102,7 @@ def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,
     # TODO work on verbose printing
 
     # Get Final Sanad unigram Precompiled Lists
-    sanad_unigrams = _generate_ngrams_from_sets(sanad_train, ngrams_number=1,
+    sanad_unigrams = _generate_ngrams_from_sets(sanad_train, ngrams_number=1,remove_stop_words=remove_stop_words,
                                                 top_frequent_percent=top_frequent_percent)
 
     # Get Final Maten Bigram Precompiled Lists
@@ -129,7 +132,7 @@ def _generate_test_set(sanad_set, maten_set):
     return test_set
 
 
-def _generate_ngrams_from_sets(hadith_part_set, ngrams_number, top_frequent_percent=0):
+def _generate_ngrams_from_sets(hadith_part_set, ngrams_number, top_frequent_percent=0, remove_stop_words=0):
     # Get grams from training set
     grams = [list(ngrams(word_tokenize(sanad), ngrams_number)) for sanad in hadith_part_set]
 
@@ -138,6 +141,13 @@ def _generate_ngrams_from_sets(hadith_part_set, ngrams_number, top_frequent_perc
 
     # Get unique sanad_train_grams and thier counts
     unique_grams, unique_grams_counts = np.unique(grams, return_counts=True, axis=0)
+
+    if remove_stop_words:
+        # Get Arabic Stop Words
+        arb_stopwords = set(nltk.corpus.stopwords.words("arabic"))
+        non_stop_words_indices = [i for i, s in enumerate(unique_grams) if s not in arb_stopwords]
+        unique_grams = unique_grams[non_stop_words_indices]
+        unique_grams_counts = unique_grams_counts[non_stop_words_indices]
 
     # Sort unique_sanad_grams and get top &top_frequent_percent grams
     sorted_unique_grams = unique_grams[np.argsort(unique_grams_counts)[::-1]]
