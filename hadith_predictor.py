@@ -102,7 +102,7 @@ def print_annotated_hadith(hadith, hadith_token_split_position):
     hadith_tokens = pre_process_hadith(hadith)
 
     for i, token in enumerate(hadith_tokens):
-        if i <= hadith_token_split_position:
+        if i <= int(hadith_token_split_position):
             print(colored(token, 'red'), end=" ")
         else:
             print(colored(token, 'blue'), end=" ")
