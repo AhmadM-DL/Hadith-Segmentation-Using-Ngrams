@@ -9,6 +9,7 @@ import sunnah_com_books_extractor as extractor
 
 nltk.download('punkt')
 
+
 def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25, top_frequent_percent=5, verbose=1):
     books = {}
 
@@ -63,16 +64,15 @@ def extract_sanad_maten_ngrams(books_paths, output_path, test_size_percent=0.25,
     if verbose:
         print("Writing extraction configuration file")
 
-    json.dump({"books_used":books_paths,
+    json.dump({"books_used": books_paths,
                "top_frequent_percent": top_frequent_percent,
                "test_size_percent": test_size_percent},
               open(output_path + "/cfg.json", "w"))
-    return
+    return s_bi, s_uni, m_bi, m_uni, test_set
 
 
 def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,
                                 top_frequent_percent=5, verbose=1):
-
     # Get training books preliminary data (sanad/maten)
     all_sanad = [book_content["sanad"] for (_, book_content) in books_dictionary.items()]
     all_maten = [book_content["maten"] for (_, book_content) in books_dictionary.items()]
@@ -82,21 +82,21 @@ def _extract_sanad_maten_ngrams(books_dictionary, test_size_percent=0.25,
     preliminary_maten = [maten for maten_list in all_maten for maten in maten_list]
 
     if verbose:
-        print("The book contained %d hadith with sanad"%(len(preliminary_sanad)))
+        print("The book contained %d hadith with sanad" % (len(preliminary_sanad)))
 
     # Split Preliminary data into train_test
     sanad_train, sanad_test, maten_train, maten_test = train_test_split(preliminary_sanad,
                                                                         preliminary_maten,
                                                                         test_size=test_size_percent)
     if verbose:
-        print("Train-Test Split (%f): %d train, %d test"%(test_size_percent, len(sanad_train), len(sanad_test)))
+        print("Train-Test Split (%f): %d train, %d test" % (test_size_percent, len(sanad_train), len(sanad_test)))
 
     # Get Final Sanad Bigram Precompiled Lists
     sanad_bigrams = _generate_ngrams_from_sets(sanad_train, ngrams_number=2,
                                                top_frequent_percent=top_frequent_percent)
     sanad_bigrams = [(a[0], a[1]) for a in sanad_bigrams]
 
-    #TODO work on verbose printing
+    # TODO work on verbose printing
 
     # Get Final Sanad unigram Precompiled Lists
     sanad_unigrams = _generate_ngrams_from_sets(sanad_train, ngrams_number=1,
@@ -146,4 +146,5 @@ def _generate_ngrams_from_sets(hadith_part_set, ngrams_number, top_frequent_perc
         grams_top_frequent_size = int((top_frequent_percent * len(unique_grams)) // 100)
         frequent_grams = sorted_unique_grams[:grams_top_frequent_size]
         return frequent_grams
+
     return unique_grams
