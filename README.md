@@ -1,12 +1,12 @@
 # Hadith-Segmentation-Using-Ngrams
-Islamic hadith are historical narrations that describes the acts and statements of Prophet Mohammad (PBUH), his household, and his Companions.
-Those hadith are collected and compiled into different books by early islamic scholars.
 
-The hadith are still of use today by islam/history scholars and researchers. Each hadith is composed of two main parts:
+Islamic ahadith are historical narrations that describe the acts and statements of Prophet Mohammad (PBUH), his household, and his Companions. Those ahadith are collected and compiled into different books by early Islamic scholars. They are still enjoying the attention and are of much importance for historical/Islamic studies. And they are being by Islamic scholars to extract the sharia law as the Holy Quran is not the only resource for Islamic laws.
 
-* The Narrators Chain ( السند/ الإسناد | Isnad/Sanad) : How the hadith read us (x said to y said to z..)
-* The Hadith Body ( "متن" | Maten): The actual statment of mohammad (PBUH) or other person
- 
+Throughout the years, Islamic hadith collectors have developed a unique structure to record hadith. A single hadith is mainly composed of two parts:
+
+* Sanad (Arabic.\<السند>): Which lists the human channel in which the hadith was propagated and is usually called \textit{the narrators chain}. In other words, it mentions that person x told person y ... that he heard person z said.
+* Maten (Arabic. \<المتن> ): Which contain the body of the hadith/statement original sayer (in this project we targeted Mohammad (PBUH) hadith only) that the narrators propagated.
+
 This repository showcases a Natural Language Processing (NLP) Technique that uses Ngrams to predict the split between sanad and maten for a given hadith.
 As in the below example:
 
