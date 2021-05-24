@@ -1,0 +1,6 @@
+flask
+pyarabic
+nltk
+unicodedata
+termcolor
+numpy
