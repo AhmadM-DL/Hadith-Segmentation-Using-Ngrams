@@ -10,7 +10,7 @@ Throughout the years, Islamic hadith collectors have developed a unique structur
 This repository showcases a Natural Language Processing (NLP) Technique that uses Ngrams to predict the split between sanad and maten for a given hadith.
 As in the below example:
 
-![image](https://github.com/AhmadM-DL/Hadith-Segmentation-Using-Ngrams/blob/master/resources/images/functionality-description.png?raw=true)
+![image](https://github.com/AhmadM-DL/Hadith-Segmentation-Using-Ngrams/blob/master/Documentation/images/functionality-description.png?raw=true)
 
 
 
