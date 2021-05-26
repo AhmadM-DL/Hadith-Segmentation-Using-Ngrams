@@ -28,7 +28,7 @@ def segment_hadith(hadith, sanad_bigrams_npy_file_path,
     maten_bigrams = np.load(maten_bigrams_npy_file_path)
     maten_unigrams = np.load(maten_unigrams_npy_file_path)
 
-    split_position, split_word = _segment_hadith(hadith, sanad_bigrams,
+    annotated_hadith, split_position = _segment_hadith(hadith, sanad_bigrams,
                                                  sanad_unigrams,
                                                  maten_bigrams,
                                                  maten_unigrams,
@@ -37,7 +37,7 @@ def segment_hadith(hadith, sanad_bigrams_npy_file_path,
     if verbose:
         print_annotated_hadith(hadith, split_position)
 
-    return split_position, split_word
+    return annotated_hadith, split_position
 
 
 def pre_process_hadith(hadith):
@@ -94,7 +94,7 @@ def _segment_hadith(hadith, sanad_bigrams, sanad_unigrams, maten_bigrams, maten_
     if split_position_predictor == PREDICTOR_INFORMATION_GAIN:
         split_position = _split_position_information_gain_predictor(annotated_hadith)
 
-    return split_position, annotated_hadith[split_position][0]
+    return annotated_hadith, split_position
 
 
 def print_annotated_hadith(hadith, hadith_token_split_position):
@@ -107,6 +107,16 @@ def print_annotated_hadith(hadith, hadith_token_split_position):
         else:
             print(colored(token, 'blue'), end=" ")
 
+
+def get_annotated_hadith(hadith, hadith_token_split_position):
+    # Prepare Hadith
+    hadith_tokens = pre_process_hadith(hadith)
+
+    for i, token in enumerate(hadith_tokens):
+        if i <= int(hadith_token_split_position):
+            print(colored(token, 'red'), end=" ")
+        else:
+            print(colored(token, 'blue'), end=" ")
 
 def _remove_duplicated_tokens(annotated_hadith_tokens):
     fixed_annotated_hadith_tokens = []

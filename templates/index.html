@@ -1,6 +1,9 @@
 <html>
 
 <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         .hadith {
             width: 60%;
@@ -12,7 +15,7 @@
 
         .hadith h1 {
             color: rgb(255, 255, 255);
-            font-size: 50px;
+            font-size: 4vw;
             font-weight: bold;
         }
 
@@ -22,56 +25,102 @@
             color: white;
         }
 
+        .hadith label {
+            font-size: 1.5vw;
+        }
+
         .hadith p {
             padding: 5px;
+            font-size: 1.2vw;
         }
 
-        .hadith textarea {
+        .hadith .prompt {
             width: 80%;
             height: 50%;
-            margin: 5px;
-            font-size: x-large;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            text-align: start;
+            padding-left: 10px;
+            padding-right: 10px;
+            font-size: 2vw;
+            background-color: white;
+            /* max-height: 100px; */
+            overflow: auto;
         }
 
-        .hadith input {
+        .hadith button {
             background-color: white;
             color: black;
             border: none;
-            padding: 15px 32px;
+            padding: 1vw 1vw;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
+            height: auto;
+            font-size: 1.5vw;
             border-radius: 8px;
             transition-duration: 0.4s;
             cursor: pointer;
         }
-        
-        .hadith input:hover {
+
+        .hadith button:hover {
             background-color: rgb(165, 160, 93);
-            color:white;
+            color: white;
+        }
+
+        body {
+            background-image: url("{{url_for('static', filename='bg.jpg')}}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
         }
     </style>
 </head>
 
-<body style="background-image: url(https://images.unsplash.com/photo-1558114965-eeb97aa84c3b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGlzbGFtaWN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2400&q=60);
-background-repeat: no-repeat; background-size: 100%;">
+<body>
 
     <div class="hadith">
-        <form action="/segment/" method="GET" name="SegmentForm">
         <h1>Hadith Segmentor Baseline</h1>
         <label for="hadith_text">
-            Paste an arabic hadith below or <a href="/">click here</a> to load some.
+            Paste an arabic hadith below or <a href="/random_hadith">click here</a> to load some.
         </label>
-        <textarea id="hadith_text" name="hadith_text" dir="rtl" >{{hadith}}</textarea>
+        <div class="prompt" contentEditable="true" id="hadith_text" name="hadith_text" dir="rtl">{{hadith}}</div>
         <div>
-            <input type="submit" value="Segment"></button>
+            <button onclick="segment();">Segment</button>
         </div>
-        <p>Hand-crafted by <a href="https://ahmadm-dl.github.io/">Ahmad Mustapha</a>. For details
-            check <a href="https://github.com/AhmadM-DL/Hadith-Segmentation-Using-Ngrams">Github repository</a>. </p>
-        </form>
+        <p>Hand-crafted by <a href="https://ahmadm-dl.github.io/">Ahmad Mustapha</a> and Joseph Sabbagh. For details
+            check <a href="https://github.com/AhmadM-DL/Hadith-Segmentation-Using-Ngrams">Github repository</a>.
+        </p>
     </div>
+    <script>
+        function httpGetAsync(theUrl, callback) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                    callback(xmlHttp.responseText);
+            }
+            xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+            xmlHttp.send(null);
+        }
 
+        function segment() {
+            var hadith_text = document.getElementById("hadith_text").textContent;
+            httpGetAsync("/api/v1/segment/" + "?" + "hadith_text=" + hadith_text, preview);
+        }
+
+        function preview(response) {
+            var response = JSON.parse(response);
+            var split_position = response.split_position;
+            var hadith = response.hadith_text;
+
+            var sanad = '<span style="color:red">' + hadith.slice(0, split_position).join(" ") + " "; + '</span>';
+            var maten = '<span style="color:green">' + hadith.slice(split_position).join(" "); + '</span>';
+            document.getElementById("hadith_text").innerHTML = sanad + maten;
+        }
+    </script>
 
 </body>
 
